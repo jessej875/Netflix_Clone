@@ -1,42 +1,47 @@
-import MovieImg from "../assets/sp2.jpg"
+import MovieImg from "../assets/sp2.jpg";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
+import { useState, useEffect } from 'react';
 
-const MovieList = () => {
-    const data = [
-        {
-            id: 1,
-            title: "Card 1",
-            description: "Description for Card 1",
-            imageUrl: "https://via.placeholder.com/150",
-        },
-        {
-            id: 2,
-            title: "Card 2",
-            description: "Description for Card 2",
-            imageUrl: "https://via.placeholder.com/150",
-        },
-        {
-            id: 3,
-            title: "Card 3",
-            description: "Description for Card 3",
-            imageUrl: "https://via.placeholder.com/150",
-        },
-    ];
-  return (
-    <div className='text-white md:px-4'> 
-        <h2 className='pt-10 pb-5 text-lg font-medium'>Upcoming</h2>
+const MovieList = ({ title, category }) => {
+    const [data, setData] = useState([]);
+    const options = {
+        method: 'GET',
+        headers: {
+            accept: 'application/json',
+            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5MDIzMWI2YjhlMGVlMjM4MDdjZmJjMzc3ZWQxYWQyYyIsIm5iZiI6MTc1ODgxMTg3MS4xMTgsInN1YiI6IjY4ZDU1NmRmZTg0ZDE5OWMwOTU5ZDYzNyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.JXBJPcwFGXOWM768wmVxi7oHfkLduxH-vKG0RL5zkZ4'
+        }
+    };
+
+    useEffect(() => {
+        fetch(
+            `https://api.themoviedb.org/3/movie/${category}?language=en-US&page=1`,
+            options
+        )
+        .then((res) => res.json())
+        .then((res) => setData(res.results))
+        .catch((err) => console.error(err));
+    }, []);
+
+    return (
+        <div className="text-white md:px-4">
+        <h2 className="pt-10 pb-5 text-lg font-medium">{title}</h2>
 
         <Swiper slidesPerView={"auto"} spaceBetween={10} className="mySwiper">
-            {data.map((item) => (
+            {data.map((item, index) => (
             <SwiperSlide key={index} className="max-w-72">
-                <img src={MovieImg} alt="" className='h-44 w-full object-center object-cover'/>
-                <p className='text-center pt-2'>a good movie</p>
+                <Link to={`/movie/${item.id}`}>
+                <img
+                src={`https://image.tmdb.org/t/p/w500/${item.backdrop_path}`}
+                alt=""
+                className="h-44 w-full object-center object-cover"
+                />
+                <p className="text-center pt-2">{item.original_title}</p>
+                </Link>
             </SwiperSlide>
             ))}
         </Swiper>
-    </div>
-  )
+        </div>
+    );
 }
-
-export default MovieList
+export default MovieList;
