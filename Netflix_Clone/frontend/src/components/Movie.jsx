@@ -2,13 +2,15 @@ import { Bookmark, Play } from "lucide-react";
 import MovieBg from "../assets/sp2.jpg";
 import { useEffect, useState } from "react";
 
+const apiKey = import.meta.env.VITE_API_KEY;
+
 const Movie = () => {
   const [movie, setMovie] = useState(null);
   const options = {
     method: 'GET',
     headers: {
       accept: 'application/json',
-      Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5MDIzMWI2YjhlMGVlMjM4MDdjZmJjMzc3ZWQxYWQyYyIsIm5iZiI6MTc1ODgxMTg3MS4xMTgsInN1YiI6IjY4ZDU1NmRmZTg0ZDE5OWMwOTU5ZDYzNyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.JXBJPcwFGXOWM768wmVxi7oHfkLduxH-vKG0RL5zkZ4'
+      Authorization: apiKey
     }
   };
 
@@ -41,11 +43,9 @@ const Movie = () => {
         <button className="flex justify-center items-center bg-[#e50914]  text-white py-3 px-4 rounded-full cursor-pointer text-sm md:text-base">
           <Play className="mr-2 w-4 h-5 md:w-5 md:h-5" /> Watch Now
         </button>
-        <Link to={`/movie/${movie.id}`}>
-          <button className="flex justify-center items-center bg-white  hover:bg-gray-200 text-[#e50914] py-3 px-4 rounded-full cursor-pointer text-sm md:text-base">
-            <Bookmark className="mr-2 w-4 h-5 md:w-5 md:h-5" /> Save for Later
-          </button>
-        </Link>
+        <button className="flex justify-center items-center bg-white  hover:bg-gray-200 text-[#e50914] py-3 px-4 rounded-full cursor-pointer text-sm md:text-base">
+          <Bookmark className="mr-2 w-4 h-5 md:w-5 md:h-5" /> Save for Later
+        </button>
      </div>
     </div>
   );

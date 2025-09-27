@@ -1,7 +1,9 @@
-import MovieImg from "../assets/sp2.jpg";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { useState, useEffect } from 'react';
+import { Link } from "react-router-dom";
+
+const apiKey = import.meta.env.VITE_API_KEY;
 
 const MovieList = ({ title, category }) => {
     const [data, setData] = useState([]);
@@ -9,7 +11,7 @@ const MovieList = ({ title, category }) => {
         method: 'GET',
         headers: {
             accept: 'application/json',
-            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5MDIzMWI2YjhlMGVlMjM4MDdjZmJjMzc3ZWQxYWQyYyIsIm5iZiI6MTc1ODgxMTg3MS4xMTgsInN1YiI6IjY4ZDU1NmRmZTg0ZDE5OWMwOTU5ZDYzNyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.JXBJPcwFGXOWM768wmVxi7oHfkLduxH-vKG0RL5zkZ4'
+            Authorization: apiKey
         }
     };
 
@@ -31,12 +33,11 @@ const MovieList = ({ title, category }) => {
             {data.map((item, index) => (
             <SwiperSlide key={index} className="max-w-72">
                 <Link to={`/movie/${item.id}`}>
-                <img
-                src={`https://image.tmdb.org/t/p/w500/${item.backdrop_path}`}
-                alt=""
-                className="h-44 w-full object-center object-cover"
-                />
-                <p className="text-center pt-2">{item.original_title}</p>
+                <img 
+                    src={`https://image.tmdb.org/t/p/w500/${item.backdrop_path}`}
+                    alt=""
+                    className="h-44 w-full object-center object-cover"/>
+                    <p className="text-center pt-2">A very good movie</p>
                 </Link>
             </SwiperSlide>
             ))}
